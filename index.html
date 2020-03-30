@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+	<title>Xurxo V.01</title>
+<link rel="stylesheet" href="css/jquery.mobile-1.4.5.css" />
+
+	<style type="text/css">
+		h1 {
+			font-size: 30px;
+		}
+
+		.form-control[readonly] {
+			background: none;
+		}
+
+		@media(max-width: 414px) {
+			.form-control {
+				font-size: 12px;
+			}
+		}
+
+		@media(max-width: 360px) {
+			.form-control {
+				font-size: 10px;
+				padding: 0 5px;
+			}
+		}
+
+		@media(max-width: 320px) {
+			.col-xs-6 {
+				padding: 0 5px;
+			}
+		}
+	</style>
+
+</head>
+<body>
+   <div data-role="page" id="inicio">
+      <div data-role="header" data-position="fixed" data-theme="b">
+         <h1>Xurxo V 0.0.1</h1>
+      </div><!-- /haeder -->
+      <div data-role="content">
+         <p>Provas de navegación</p>
+      </div><!-- /content -->
+
+      <div data-role="footer" data-position="fixed" data-theme="b">
+         <div data-role="navbar">
+            <ul>
+               <li><a id="exitApp" href="#jqExit" data-icon="star" data-transition="pop">Salir</a></li>
+               <li><a href="#jqui" data-icon="plus" data-transition="slideup">Login </a></li>
+               <li><a href="#jqClaves" data-icon="grid" data-theme="e" data-transition="flip">Claves</a></li>
+            </ul>
+         </div><!-- /navbar -->
+      </div><!-- /footer -->
+   </div><!-- /page -->
+
+   <div data-role="page" id="jqClaves">
+      <div data-role="header" data-position="fixed">
+         <h1>Claves</h1><a href="#inicio" data-role="button" data-icon="home" data-iconpos="notext" class="ui-btn-right">Inicio</a>
+      </div><!-- /haeder -->
+      <div data-role="content">
+         <p>Cálculo de claves para Inforfree:</br> 
+         </p>
+		<div class="row">
+			<div class="form-group clearfix">
+				<div class="col-xs-6">
+					<input readonly class="form-control" type="text" id="date-group3-1" placeholder= "">
+				</div>
+			</div>
+		</div>
+		<div id="claves">
+		  <p>Clave tipo 3: <span class="valorClave" id="claveTipo3"></span></p>
+		  <p>Clave tipo 4: <span class="valorClave" id="claveTipo4"></span></p>
+		  <p>Clave tipo 5: <span class="valorClave" id="claveTipo5"></span></p>
+		</div>
+
+         <img style="width:30%;position: absolute;  bottom: 80px; " src="imagenes/inforfreelogo.jpg"/>
+      </div><!-- /content -->
+      <div data-role="footer" data-position="fixed" data-theme="b">
+         <h3>Calculo de Claves</h3>
+      </div><!-- /footer -->
+   </div><!-- /page -->
+ 
+<script src="js/jquery-2.1.0.js"></script>
+<script src="js/jquery.mobile-1.4.5.js"></script>
+<script type="text/javascript" src="js/rolldate.js"></script></body>
+<script src="js/FROIZ.js"></script>
+
+<script>
+if('serviceWorker' in navigator) {
+  navigator.serviceWorker
+           .register('/sw.js')
+		   .then(function() { console.log("Service Worker Registered"); })
+		   ;
+  navigator.serviceWorker.ready.then(function(registration) {
+           console.log('Service Worker Ready');
+        });
+}
+
+$( function(){
+			var idioma = {
+				title: 'Fecha',
+				cancel: 'Cancelar',
+				confirm: 'Ok',
+				year: 'Ano',
+				month: 'Mes',
+				day: 'Dia',
+				hour: 'Hora',
+				min: 'Minuto',
+				sec: 'Segundo'
+			};
+			new Rolldate({
+				el: '#date-group3-1',
+				format: 'YYYY-MM-DD hh:mm',
+				beginYear: 2020,
+				endYear: 2100,
+				lang: idioma,
+				confirm: function(date) {
+					calcularClaves( date );
+					return date;
+				}
+
+			});
+			$( '#jqClaves' ).on( 'pageshow',function(event, ui){
+				let fechaAhora = new Date();
+				let fechaFormateada = fechaAhora.getFullYear()+"-"+FROIZ.FORMATOS.rellenar("00",""+ ( fechaAhora.getMonth()+1),'D')+"-"+ fechaAhora.getDate()+" "+ fechaAhora.getHours()+":"+fechaAhora.getMinutes();
+				$("#date-group3-1").val(  fechaFormateada );
+			    calcularClaves( fechaFormateada ); 
+			});
+
+			$( '#jqClaves' ).on( 'pagehide',function(event, ui){
+	//			alert( 'This page was just shown: '+ ui.nextPage);
+			});
+			$( '#exitApp' ).on( 'click',function(event, ui){
+				navigator.app.exitApp();
+			});
+			
+
+});
+function calcularClaves(date){
+	date = date.replace(/ /g,"T")+":00Z";
+	var oDate = new Date( date );
+	//				alert('entra '+ date );
+    var clave = oDate.getFullYear()+  (oDate.getMonth() + 1) +oDate.getDate();
+    //alert('clave 1 '+clave );
+	$("#claveTipo3").html(""+ ( clave * ( oDate.getDate()+1) ) );
+	clave += oDate.getHours();
+    $("#claveTipo4").html(""+ ( clave * ( oDate.getHours()+1) ) );
+	clave += Math.trunc( oDate.getMinutes() /10 ) +1;
+    $("#claveTipo5").html(""+ ( clave * ( Math.trunc( oDate.getMinutes() /10 ) +1 ) ) );
+	
+}
+
+</script>
+
+</body>
+</html> 
