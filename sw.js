@@ -1,5 +1,5 @@
 
-const version = "0.0.3";
+const version = "0.0.4";
 const cacheName = `xurxo-${version}`;
 self.addEventListener('install', e => {
   e.waitUntil(
@@ -12,6 +12,8 @@ self.addEventListener('install', e => {
         `./js/jquery-2.1.0.js`,
         `./js/rolldate.js`,
         `./js/FROIZ.js`,
+        `./imagenes/presentacion.png`
+        `./imagenes/inforfreelogo.jpg`
         `./js/jquery.mobile-1.4.5.js`
       ])
           .then(() => self.skipWaiting());
