@@ -35,6 +35,10 @@
 				padding: 0 5px;
 			}
 		}
+		.novisible{
+		  visibility : hidden;
+		}
+
 		.loader {
 			position: fixed;
 			left: 0px;
@@ -49,12 +53,13 @@
 	<script type="text/javascript">
 	$(window).load(function() {
 		$(".loader").fadeOut("slow");
+		$(".novisible").css('visibility', 'visible');
 	});
 	</script>
 </head>
 <body>
    <div class="loader"></div>
-   <div data-role="page" id="inicio">
+   <div class="novisible"  data-role="page" id="inicio">
       <div data-role="header" data-position="fixed" data-theme="b">
          <h1>Xurxo V 0.0.1</h1>
       </div><!-- /haeder -->
@@ -73,7 +78,7 @@
       </div><!-- /footer -->
    </div><!-- /page -->
 
-   <div data-role="page" id="jqClaves">
+   <div class="novisible"  data-role="page" id="jqClaves">
       <div data-role="header" data-position="fixed">
          <h1>Claves</h1><a href="#inicio" data-role="button" data-icon="home" data-iconpos="notext" class="ui-btn-right">Inicio</a>
       </div><!-- /haeder -->
