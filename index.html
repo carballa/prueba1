@@ -146,7 +146,7 @@ $( function(){
 			});
 			$( '#jqClaves' ).on( 'pageshow',function(event, ui){
 				let fechaAhora = new Date();
-				let fechaFormateada = fechaAhora.getFullYear()+"-"+FROIZ.FORMATOS.rellenar("00",""+ ( fechaAhora.getMonth()+1),'D')+"-"+ FROIZ.FORMATOS.rellenar("00",""+fechaAhora.getDate(),'D')+" "+ fechaAhora.getHours()+":"+fechaAhora.getMinutes();
+				let fechaFormateada = fechaAhora.getFullYear()+"-"+FROIZ.FORMATOS.rellenar("00",""+ ( fechaAhora.getMonth()+1),'D')+"-"+ FROIZ.FORMATOS.rellenar("00",""+fechaAhora.getDate(),'D')+" "+ FROIZ.FORMATOS.rellenar("00",""+fechaAhora.getHours(),'D')+":"+FROIZ.FORMATOS.rellenar("00",""+fechaAhora.getMinutes(),'D');
 				$("#date-group3-1").val(  fechaFormateada );
 			    calcularClaves( fechaFormateada ); 
 			});
