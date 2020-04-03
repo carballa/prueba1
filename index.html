@@ -162,17 +162,20 @@ $( function(){
 });
 function calcularClaves(date){
 	date = date.replace(/ /g,"T")+":00Z";
-	var oDate = new Date( date );
+	var oDate = new Date( date  );
+	    oDate = new Date( oDate.getTime() + oDate.getTimezoneOffset() * 60000);
 	//				alert('entra '+ date );
     var clave = oDate.getFullYear()+  (oDate.getMonth() + 1) +oDate.getDate();
     //alert('clave 1 '+clave );
 	$("#claveTipo3").html(""+ ( clave * ( oDate.getDate()+1) ) );
 	clave += oDate.getHours();
     $("#claveTipo4").html(""+ ( clave * ( oDate.getHours()+1) ) );
-	clave += Math.trunc( oDate.getMinutes() /10 ) +1;
+	clave += ((Math.trunc( oDate.getMinutes() /10 ) +1) *(Math.trunc( oDate.getMinutes() /10 ) +1)) ;
+	
     $("#claveTipo5").html(""+ ( clave * ( Math.trunc( oDate.getMinutes() /10 ) +1 ) ) );
 	
 }
+
 
 </script>
 
